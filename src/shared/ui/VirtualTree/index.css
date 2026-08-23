@@ -1,0 +1,57 @@
+.tree-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+}
+
+.tree-viewport {
+	flex-grow: 1;
+	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.tree-node {
+	height: 40px;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	border-bottom: 1px solid #f0f0f0;
+	user-select: none;
+}
+
+.tree-node.clickable {
+	cursor: pointer;
+}
+
+.tree-node.clickable:hover {
+	background-color: #f9f9f9;
+}
+
+.arrow {
+	margin-right: 8px;
+	font-size: 12px;
+	width: 16px;
+	text-align: center;
+}
+
+.spacer {
+	margin-right: 8px;
+	width: 16px;
+	text-align: center;
+	color: #999;
+}
+
+.node-name.catalog {
+	font-weight: bold;
+	color: #1a73e8;
+}
+.node-name.layer {
+	font-weight: 500;
+	color: #34a853;
+}
+.node-name.object {
+	color: #3c4043;
+}

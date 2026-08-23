@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
-        "openlayers"
-    ]
+		"openlayers",
+		"orthodromy",
+		"topojson"
+	],
+	"cSpell.language": "en,ru"
 }

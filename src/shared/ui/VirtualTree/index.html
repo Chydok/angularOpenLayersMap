@@ -1,0 +1,25 @@
+<div class="tree-container">
+	<cdk-virtual-scroll-viewport itemSize="40" class="tree-viewport">
+		<div
+			*cdkVirtualFor="let node of visibleNodes()"
+			class="tree-node"
+			[style.padding-left.px]="node.level * 24"
+			(click)="toggleNode(node)"
+			[class.clickable]="node.expandable"
+		>
+			@if (node.expandable) {
+				<span class="arrow">
+					{{ node.isExpanded ? "▼" : "►" }}
+				</span>
+			}
+
+			@if (!node.expandable) {
+				<span class="spacer">•</span>
+			}
+
+			<span class="node-name" [class]="node.type">
+				{{ node.name }}
+			</span>
+		</div>
+	</cdk-virtual-scroll-viewport>
+</div>
