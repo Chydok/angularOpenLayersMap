@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, signal } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, signal, model, contentChild, TemplateRef } from "@angular/core";
 import { CdkVirtualScrollViewport, ScrollingModule } from "@angular/cdk/scrolling";
 import { TreeNode } from "./types";
+import { NgTemplateOutlet } from "@angular/common";
 
 @Component({
 	selector: "VirtualTree",
 	standalone: true,
-	imports: [ScrollingModule],
+	imports: [ScrollingModule, NgTemplateOutlet],
 	templateUrl: "./index.html",
 	styleUrls: ["./index.css"],
 })
@@ -13,8 +14,10 @@ export class VirtualTree implements OnInit, OnDestroy, AfterViewInit {
 	@ViewChild(CdkVirtualScrollViewport) viewport!: CdkVirtualScrollViewport;
 
 	private resizeObserver!: ResizeObserver;
-	private allNodes: TreeNode[] = [];
+	allNodes = model<TreeNode[]>([]);
 	public visibleNodes = signal<TreeNode[]>([]);
+
+	treeElementTemplate = contentChild(TemplateRef);
 
 	ngAfterViewInit() {
 		this.resizeObserver = new ResizeObserver(() => {
@@ -27,7 +30,6 @@ export class VirtualTree implements OnInit, OnDestroy, AfterViewInit {
 	}
 
 	ngOnInit(): void {
-		this.generateMockData();
 		this.updateVisibleNodes();
 	}
 
@@ -51,7 +53,7 @@ export class VirtualTree implements OnInit, OnDestroy, AfterViewInit {
 		const visible: TreeNode[] = [];
 		const hiddenParentsIds = new Set<string>();
 
-		for (const node of this.allNodes) {
+		for (const node of this.allNodes()) {
 			if (node.parentId && hiddenParentsIds.has(node.parentId)) {
 				if (node.expandable) hiddenParentsIds.add(node.id);
 				continue;
@@ -62,45 +64,5 @@ export class VirtualTree implements OnInit, OnDestroy, AfterViewInit {
 			}
 		}
 		this.visibleNodes.set(visible);
-	}
-
-	private generateMockData() {
-		const nodes: TreeNode[] = [];
-		let counter = 0;
-		for (let c = 1; c <= 20; c++) {
-			const catalogId = `c-${c}`;
-			nodes.push({
-				id: catalogId,
-				name: `Каталог ${c}`,
-				type: "catalog",
-				level: 1,
-				expandable: true,
-				isExpanded: false,
-			});
-			for (let l = 1; l <= 10; l++) {
-				const layerId = `l-${c}-${l}`;
-				nodes.push({
-					id: layerId,
-					name: `Слой ${c}-${l} (Кат ${c})`,
-					type: "layer",
-					level: 1,
-					expandable: true,
-					isExpanded: false,
-					parentId: catalogId,
-				});
-				for (let o = 1; o <= 100; o++) {
-					counter++;
-					nodes.push({
-						id: `o-${counter}`,
-						name: `Объект ${counter} [Узел ${l}]`,
-						type: "object",
-						level: 2,
-						expandable: false,
-						parentId: layerId,
-					});
-				}
-			}
-		}
-		this.allNodes = nodes;
 	}
 }

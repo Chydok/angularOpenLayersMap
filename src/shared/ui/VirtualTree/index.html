@@ -4,21 +4,23 @@
 			*cdkVirtualFor="let node of visibleNodes()"
 			class="tree-node"
 			[style.padding-left.px]="node.level * 24"
-			(click)="toggleNode(node)"
+			(dblclick)="toggleNode(node)"
 			[class.clickable]="node.expandable"
 		>
 			@if (node.expandable) {
-				<span class="arrow">
+				<span class="arrow" (click)="toggleNode(node)">
 					{{ node.isExpanded ? "▼" : "►" }}
 				</span>
-			}
-
-			@if (!node.expandable) {
+			} @else {
 				<span class="spacer">•</span>
 			}
 
 			<span class="node-name" [class]="node.type">
-				{{ node.name }}
+				@if (treeElementTemplate(); as template) {
+					<ng-container *ngTemplateOutlet="template; context: {$implicit: node}"></ng-container>
+				} @else {
+					{{node.name}}
+				}
 			</span>
 		</div>
 	</cdk-virtual-scroll-viewport>

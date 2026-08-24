@@ -1,4 +1,4 @@
-export interface TreeNode {
+export type TreeNode = {
 	id: string;
 	name: string;
 	type: "catalog" | "layer" | "object";

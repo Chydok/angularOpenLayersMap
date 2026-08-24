@@ -1,3 +1,7 @@
 <div class="TreeListContainer">
-	<VirtualTree></VirtualTree>
+	<VirtualTree [allNodes]="allNodes">
+		<ng-template let-data>
+			<TreeElement [name]="data.name" />
+		</ng-template>
+	</VirtualTree>
 </div>
