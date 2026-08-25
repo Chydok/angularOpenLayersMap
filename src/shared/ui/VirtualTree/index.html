@@ -3,7 +3,9 @@
 		<div
 			*cdkVirtualFor="let node of visibleNodes()"
 			class="tree-node"
+			[class]="selectedNodes().has(node.id) ? 'selected' : ''"
 			[style.padding-left.px]="node.level * 24"
+			(click)="selectNode(node.id)"
 			(dblclick)="toggleNode(node)"
 			[class.clickable]="node.expandable"
 		>

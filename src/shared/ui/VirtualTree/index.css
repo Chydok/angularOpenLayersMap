@@ -22,12 +22,16 @@
 	user-select: none;
 }
 
+.tree-node.selected {
+	background: #94baff;
+}
+
 .tree-node.clickable {
 	cursor: pointer;
 }
 
 .tree-node.clickable:hover {
-	background-color: #f9f9f9;
+	background-color: #9de7fd;
 }
 
 .arrow {

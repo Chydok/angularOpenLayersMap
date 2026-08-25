@@ -16,6 +16,7 @@ export class VirtualTree implements OnInit, OnDestroy, AfterViewInit {
 	private resizeObserver!: ResizeObserver;
 	allNodes = model<TreeNode[]>([]);
 	public visibleNodes = signal<TreeNode[]>([]);
+	public selectedNodes = signal<Map<string, boolean>>(new Map);
 
 	treeElementTemplate = contentChild(TemplateRef);
 
@@ -47,6 +48,14 @@ export class VirtualTree implements OnInit, OnDestroy, AfterViewInit {
 		if (!node.expandable) return;
 		node.isExpanded = !node.isExpanded;
 		this.updateVisibleNodes();
+	}
+
+	selectNode(nodeId: string) {
+		if (this.selectedNodes().has(nodeId)) {
+			this.selectedNodes().delete(nodeId);
+		} else {
+			this.selectedNodes().set(nodeId, true);
+		}
 	}
 
 	private buildTree() {
