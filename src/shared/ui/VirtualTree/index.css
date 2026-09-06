@@ -3,23 +3,39 @@
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
+	min-height: 0;
+	font-family: system-ui;
+	font-size: 1rem;
+	--tree-line: #c0c4c8;
+	--tree-line-width: 1px;
+	--tree-curve: 12px;
 }
 
-.tree-viewport {
-	flex-grow: 1;
+.tree-scroll {
+	flex: 1 1 0;
+	min-height: 0;
 	width: 100%;
+	overflow: auto;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	background: #fff;
 }
 
+.tree-list {
+	margin: 0;
+	padding-inline: 0;
+	list-style: none;
+}
+
 .tree-node {
-	height: 40px;
+	position: relative;
+	height: 30px;
 	display: flex;
 	align-items: center;
 	box-sizing: border-box;
 	border-bottom: 1px solid #f0f0f0;
 	user-select: none;
+	overflow: visible;
 }
 
 .tree-node.selected {
@@ -34,26 +50,93 @@
 	background-color: #9de7fd;
 }
 
+.guides {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.guide-line,
+.guide-stem {
+	position: absolute;
+	width: var(--tree-line-width);
+	background: var(--tree-line);
+	transform: translateX(calc(var(--tree-line-width) / -2));
+}
+
+.guide-line {
+	top: 0;
+	bottom: 0;
+}
+
+.guide-stem {
+	top: calc(50% + 7px);
+	bottom: 0;
+}
+
+.guide-branch {
+	position: absolute;
+	top: 0;
+	height: 100%;
+}
+
+.guide-branch:not(.last)::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: var(--tree-line-width);
+	background: var(--tree-line);
+	transform: translateX(calc(var(--tree-line-width) / -2));
+}
+
+.guide-branch::after {
+	content: "";
+	position: absolute;
+	left: calc(var(--tree-line-width) / -2);
+	top: 0;
+	width: max(var(--tree-curve), 100%);
+	height: 50%;
+	box-sizing: border-box;
+	border-left: var(--tree-line-width) solid var(--tree-line);
+	border-bottom: var(--tree-line-width) solid var(--tree-line);
+	border-bottom-left-radius: var(--tree-curve);
+}
+
+.arrow,
+.spacer,
+.node-name {
+	position: relative;
+	z-index: 1;
+}
+
 .arrow {
-	margin-right: 8px;
-	font-size: 12px;
-	width: 16px;
-	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 20px;
+
+	transition: transform 0.3s ease-in-out;
+}
+
+.arrow.expanded {
+	transform: rotate(90deg);
 }
 
 .spacer {
-	margin-right: 8px;
+	margin: 0 0.2rem;
 	width: 16px;
 	text-align: center;
 	color: #999;
+	flex-shrink: 0;
 }
 
 .node-name.catalog {
-	font-weight: bold;
 	color: #1a73e8;
 }
 .node-name.layer {
-	font-weight: 500;
 	color: #34a853;
 }
 .node-name.object {

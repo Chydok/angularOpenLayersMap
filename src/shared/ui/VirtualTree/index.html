@@ -1,29 +1,90 @@
 <div class="tree-container">
-	<cdk-virtual-scroll-viewport itemSize="40" class="tree-viewport">
-		<div
-			*cdkVirtualFor="let node of visibleNodes()"
-			class="tree-node"
-			[class]="selectedNodes().has(node.id) ? 'selected' : ''"
-			[style.padding-left.px]="node.level * 24"
-			(click)="selectNode(node.id)"
-			(dblclick)="toggleNode(node)"
-			[class.clickable]="node.expandable"
+	<div #viewport class="tree-scroll" (scroll)="onScroll($event)">
+		<ul
+			class="tree-list"
+			role="tree"
+			[style.padding-top.px]="padTop()"
+			[style.padding-bottom.px]="padBottom()"
 		>
-			@if (node.expandable) {
-				<span class="arrow" (click)="toggleNode(node)">
-					{{ node.isExpanded ? "▼" : "►" }}
-				</span>
-			} @else {
-				<span class="spacer">•</span>
-			}
+			@for (row of windowedNodes(); track row.node.id) {
+				<li
+					class="tree-node"
+					role="treeitem"
+					[attr.aria-level]="row.depth + 1"
+					[attr.aria-expanded]="row.node.expandable ? row.node.isExpanded : null"
+					[attr.aria-selected]="selectedNodes().has(row.node.id)"
+					[class.selected]="selectedNodes().has(row.node.id)"
+					[class.clickable]="row.node.expandable"
+					[style.padding-left.px]="row.depth * indent"
+					(click)="selectNode(row.node.id)"
+					(dblclick)="toggleNode(row.node)"
+				>
+					<span class="guides" aria-hidden="true">
+						@for (guideDepth of row.ancestorGuideDepths; track guideDepth) {
+							<span
+								class="guide-line"
+								[style.left.px]="guideDepth * indent + arrowCenter"
+							></span>
+						}
+						@if (row.depth > 0) {
+							<span
+								class="guide-branch"
+								[class.last]="row.isLastChild"
+								[style.left.px]="row.parentDepth * indent + arrowCenter"
+								[style.width.px]="
+									(row.depth - row.parentDepth) * indent - arrowCenter
+								"
+							></span>
+						}
+						@if (row.showStem) {
+							<span
+								class="guide-stem"
+								[style.left.px]="row.depth * indent + arrowCenter"
+							></span>
+						}
+					</span>
 
-			<span class="node-name" [class]="node.type">
-				@if (treeElementTemplate(); as template) {
-					<ng-container *ngTemplateOutlet="template; context: {$implicit: node}"></ng-container>
-				} @else {
-					{{node.name}}
-				}
-			</span>
-		</div>
-	</cdk-virtual-scroll-viewport>
+					@if (row.node.expandable) {
+						<div
+							class="arrow"
+							[class.expanded]="row.node.isExpanded"
+							(click)="toggleNode(row.node)"
+						>
+							<svg
+								fill="#999"
+								version="1.1"
+								id="arrow"
+								xmlns="http://www.w3.org/2000/svg"
+								xmlns:xlink="http://www.w3.org/1999/xlink"
+								width="10"
+								height="10"
+								viewBox="0 0 30.729 30.729"
+								xml:space="preserve"
+							>
+								<g>
+									<path
+										d="M24.813,15.366L10.185,29.997c-0.487,0.487-1.128,0.731-1.768,0.731c-0.641,0-1.279-0.244-1.769-0.731
+											c-0.977-0.978-0.977-2.561,0-3.536l11.095-11.096L6.649,4.268c-0.976-0.977-0.976-2.56,0-3.536c0.977-0.977,2.56-0.976,3.536,0
+											L24.813,15.366z"
+									/>
+								</g>
+							</svg>
+						</div>
+					} @else {
+						<span class="spacer">•</span>
+					}
+
+					<span class="node-name" [class]="row.node.type">
+						@if (treeElementTemplate(); as template) {
+							<ng-container
+								*ngTemplateOutlet="template; context: { $implicit: row.node }"
+							></ng-container>
+						} @else {
+							{{ row.node.name }}
+						}
+					</span>
+				</li>
+			}
+		</ul>
+	</div>
 </div>

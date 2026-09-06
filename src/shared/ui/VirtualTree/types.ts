@@ -6,4 +6,13 @@ export type TreeNode = {
 	expandable: boolean;
 	isExpanded?: boolean;
 	parentId?: string;
-}
+};
+
+export type VisibleRow = {
+	node: TreeNode;
+	depth: number;
+	parentDepth: number;
+	isLastChild: boolean;
+	ancestorGuideDepths: number[];
+	showStem: boolean;
+};
