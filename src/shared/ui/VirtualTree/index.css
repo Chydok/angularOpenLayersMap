@@ -1,4 +1,4 @@
-.tree-container {
+.treeContainer {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -6,12 +6,12 @@
 	min-height: 0;
 	font-family: system-ui;
 	font-size: 1rem;
-	--tree-line: #c0c4c8;
+	--tree-line: #e8e8e8;
 	--tree-line-width: 1px;
 	--tree-curve: 12px;
 }
 
-.tree-scroll {
+.treeScroll {
 	flex: 1 1 0;
 	min-height: 0;
 	width: 100%;
@@ -21,33 +21,26 @@
 	background: #fff;
 }
 
-.tree-list {
+.treeList {
 	margin: 0;
 	padding-inline: 0;
 	list-style: none;
+	padding: 0.1rem 0.5rem;
 }
 
-.tree-node {
+.treeNode {
 	position: relative;
 	height: 30px;
 	display: flex;
 	align-items: center;
 	box-sizing: border-box;
-	border-bottom: 1px solid #f0f0f0;
 	user-select: none;
 	overflow: visible;
+	padding: 0.1rem 0;
 }
 
-.tree-node.selected {
-	background: #94baff;
-}
-
-.tree-node.clickable {
+.treeNode.clickable {
 	cursor: pointer;
-}
-
-.tree-node.clickable:hover {
-	background-color: #9de7fd;
 }
 
 .guides {
@@ -56,31 +49,31 @@
 	pointer-events: none;
 }
 
-.guide-line,
-.guide-stem {
+.guideLine,
+.guideStem {
 	position: absolute;
 	width: var(--tree-line-width);
 	background: var(--tree-line);
 	transform: translateX(calc(var(--tree-line-width) / -2));
 }
 
-.guide-line {
+.guideLine {
 	top: 0;
 	bottom: 0;
 }
 
-.guide-stem {
+.guideStem {
 	top: calc(50% + 7px);
-	bottom: 0;
+	/* bottom: 0; */
 }
 
-.guide-branch {
+.guideBranch {
 	position: absolute;
 	top: 0;
 	height: 100%;
 }
 
-.guide-branch:not(.last)::before {
+.guideBranch:not(.last)::before {
 	content: "";
 	position: absolute;
 	left: 0;
@@ -91,7 +84,7 @@
 	transform: translateX(calc(var(--tree-line-width) / -2));
 }
 
-.guide-branch::after {
+.guideBranch::after {
 	content: "";
 	position: absolute;
 	left: calc(var(--tree-line-width) / -2);
@@ -104,9 +97,27 @@
 	border-bottom-left-radius: var(--tree-curve);
 }
 
+.contentContainer {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	border-radius: 1.5vh;
+	line-height: 1;
+	height: 100%;
+	width: 100%;
+	align-content: center;
+}
+
+.contentContainer.selected {
+	background: #ece9ff;
+}
+
+.contentContainer:hover {
+	background-color: #e8e8e8;
+}
+
 .arrow,
 .spacer,
-.node-name {
+.nodeName {
 	position: relative;
 	z-index: 1;
 }
@@ -127,18 +138,19 @@
 
 .spacer {
 	margin: 0 0.2rem;
-	width: 16px;
+	width: 18px;
+	height: 20px;
 	text-align: center;
 	color: #999;
 	flex-shrink: 0;
 }
 
-.node-name.catalog {
+.nodeName.catalog {
 	color: #1a73e8;
 }
-.node-name.layer {
+.nodeName.layer {
 	color: #34a853;
 }
-.node-name.object {
+.nodeName.object {
 	color: #3c4043;
 }
