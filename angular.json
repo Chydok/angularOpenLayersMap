@@ -22,6 +22,11 @@
 							{
 								"glob": "**/*",
 								"input": "public"
+							},
+							{
+								"glob": "**/*",
+								"input": "src/shared/icons",
+								"output": "/assets/icons/"
 							}
 						],
 						"styles": ["src/styles.css"]

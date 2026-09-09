@@ -22,16 +22,16 @@
 						@for (guideDepth of row.ancestorGuideDepths; track guideDepth) {
 							<span
 								class="guideLine"
-								[style.left.px]="guideDepth * indent + arrowCenter"
+								[style.left.px]="guideDepth * indent + arrowCenter + 4"
 							></span>
 						}
 						@if (row.depth > 0) {
 							<span
 								class="guideBranch"
 								[class.last]="row.isLastChild"
-								[style.left.px]="row.parentDepth * indent + arrowCenter"
+								[style.left.px]="row.parentDepth * indent + arrowCenter + 4"
 								[style.width.px]="
-									(row.depth - row.parentDepth) * indent - arrowCenter
+									(row.depth - row.parentDepth) * indent - arrowCenter - 4
 								"
 							></span>
 						}
@@ -76,15 +76,15 @@
 							<span class="spacer">•</span>
 						}
 
-						<span class="nodeName" [class]="row.node.type">
+						<div class="nodeName" [class]="row.node.type">
 							@if (treeElementTemplate(); as template) {
 								<ng-container
 									*ngTemplateOutlet="template; context: { $implicit: row.node }"
 								></ng-container>
 							} @else {
-								{{ row.node.name }}
+								<span>{{ row.node.name }}</span>
 							}
-						</span>
+						</div>
 					</div>
 				</li>
 			}

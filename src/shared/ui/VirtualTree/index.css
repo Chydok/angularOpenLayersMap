@@ -30,7 +30,7 @@
 
 .treeNode {
 	position: relative;
-	height: 30px;
+	height: 35px;
 	display: flex;
 	align-items: center;
 	box-sizing: border-box;
@@ -64,7 +64,6 @@
 
 .guideStem {
 	top: calc(50% + 7px);
-	/* bottom: 0; */
 }
 
 .guideBranch {
@@ -105,6 +104,7 @@
 	height: 100%;
 	width: 100%;
 	align-content: center;
+	padding-left: 0.25rem;
 }
 
 .contentContainer.selected {
@@ -143,14 +143,4 @@
 	text-align: center;
 	color: #999;
 	flex-shrink: 0;
-}
-
-.nodeName.catalog {
-	color: #1a73e8;
-}
-.nodeName.layer {
-	color: #34a853;
-}
-.nodeName.object {
-	color: #3c4043;
 }

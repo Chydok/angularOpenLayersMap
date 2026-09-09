@@ -1,7 +1,7 @@
 <div class="TreeListContainer">
 	<VirtualTree [allNodes]="allNodes">
 		<ng-template let-data>
-			<TreeElement [name]="data.name" />
+			<TreeElement [name]="data.name" [isExpanded]="data.isExpanded" />
 		</ng-template>
 	</VirtualTree>
 </div>
